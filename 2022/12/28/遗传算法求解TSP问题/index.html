@@ -1,0 +1,934 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/kaiicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Hou Kai">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文介绍了基于遗传算法求解TSP问题以及结果的可视化分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遗传算法求解TSP问题">
+<meta property="og:url" content="http://kaikai12321.github.io/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="楷楷">
+<meta property="og:description" content="本文介绍了基于遗传算法求解TSP问题以及结果的可视化分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://kaikai12321.github.io/img/%E7%BD%971.jpg">
+<meta property="article:published_time" content="2022-12-28T13:20:53.000Z">
+<meta property="article:modified_time" content="2023-01-14T12:46:33.009Z">
+<meta property="article:author" content="Hou Kai">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="遗传算法">
+<meta property="article:tag" content="TSP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://kaikai12321.github.io/img/%E7%BD%971.jpg">
+  
+  
+  
+  <title>遗传算法求解TSP问题 - 楷楷</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kaikai12321.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"gs33BnmWb0Kb5c7r2935ONLp-MdYXbMMI","app_key":"WQsVTXOBSz94Ap6KvkqOgcaN","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>楷楷</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default7.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="遗传算法求解TSP问题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-28 21:20" pubdate>
+          2022年12月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">遗传算法求解TSP问题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文介绍了基于遗传算法求解TSP问题以及结果的可视化分析</p>
+<span id="more"></span>
+
+<h1 id="基于遗传算法求解TSP问题"><a href="#基于遗传算法求解TSP问题" class="headerlink" title="基于遗传算法求解TSP问题"></a>基于遗传算法求解TSP问题</h1><h3 id="一-问题描述"><a href="#一-问题描述" class="headerlink" title="一. 问题描述"></a>一. 问题描述</h3><p>​		TSP问题即旅行商问题，属于典型的组合优化问题，理论上来讲，组合优化问题的求解，总是可以用枚举的方式找到结果，例如对于一个简单的对称型TSP问题，可以采用枚举法排列出全部可以选择的路线，然后计算每条线路的长度，根据要求就可以算出总路程的长度，最后比较走不同的路线的长度，找出最短的一条完整路径，这种方法思路简单但是针对于城市数目较少时可以很快算出，但随着城市规模的增大到n，路线就是(n-1)!&#x2F;2n条，当n较大时就会超出计算机的算力，枚举就没有意义了。</p>
+<p>​		所以现在人们转向寻求有效的启发式算法，这是因为启发式算法使问题在可接受的时间和空间复杂度上去寻找最优解，但无法保证解的有效性和最优性。目前TSP问题的求解算法主要有以禁忌算法，模拟退火算法，遗传算法，蚁群算法等为代表的现代智能优化算法。这些算法虽然思路不同但存在一个共同的目标：求得像旅行商问题等组合优化问题中的难解类问题的全局最优解。</p>
+<p>​		TSP问题的数学模型：</p>
+<p>​		TSP问题可以定义为，给定n个顶点的无向完全图G &#x3D; (V,E,r)，要求一个推销员遍历所有城市后回到出发点形成回路C，且使回路C上的权值之和达到最小，其中V是城市点集，E是城市与城市之间的边，r代表权值。</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/TSP%E9%97%AE%E9%A2%98%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B.png" srcset="/img/loading.gif" lazyload class="" title="TSP问题数学模型">
+
+<h3 id="二-求解问题的方法框架"><a href="#二-求解问题的方法框架" class="headerlink" title="二. 求解问题的方法框架"></a>二. 求解问题的方法框架</h3><h4 id="2-1-遗传算法介绍"><a href="#2-1-遗传算法介绍" class="headerlink" title="2.1 遗传算法介绍"></a>2.1 遗传算法介绍</h4><p>​		遗传算法是模仿自然界生物进化机制发展起来的随机全局搜索和优化方法，它借鉴了达尔文的进化论和孟德尔的遗传学说。其本质是一种高效、并行、全局搜索的方法，它能在搜索过程中自动获取和积累有关搜索空间的知识，并自适应的控制搜索过程以求得最优解。遗传算法操作使用适者生存的原则，在潜在的解决方案种群中逐次产生一个近似最优解的方案，在遗传算法的每一代中，根据个体在问题域中的适应度值和从自然遗传学中借鉴来的再造方法进行个体选择，产生一个新的近似解。这个过程导致种群中个体的进化，得到的新个体比原来个体更能适应环境，就像自然界中的改造一样。<br>​		遗传算法是计算机科学人工智能领域中用于解决最优化的一种搜索启发式算法，是进化算法的一种。这种启发式通常用来生成有用的解决方案来优化和搜索问题。进化算法最初是借鉴了进化生物学中的一些现象而发展起来的，这些现象包括遗传、突变、自然选择以及杂交等。</p>
+<h4 id="2-2-遗传算法基本步骤"><a href="#2-2-遗传算法基本步骤" class="headerlink" title="2.2 遗传算法基本步骤"></a>2.2 遗传算法基本步骤</h4><p>流程图：</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%E5%9B%BE.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法流程图">
+
+<ol>
+<li><p>选择编码策略，对所求问题进行编码</p>
+<p>​		实现遗传算法的首要目标就是设计对TSP问题的编码方式以及解码方法。因为TSP问题空间的参数不能被遗传算法识别处理，必须根据一定的构造方法将它们转化为由基因组成的遗传空间里的个体，即确定编码方式。</p>
+<p>​		本次实验解决C-TSP问题，数据集是中国34个一线城市的最优路线，给出了各个城市的经纬度</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E5%9F%8E%E5%B8%82%E7%BB%8F%E7%BA%AC%E5%BA%A6%E6%95%B0%E6%8D%AE.png" srcset="/img/loading.gif" lazyload class="" title="城市经纬度数据">
+
+<p>​		n个城市的的基因编码方式为：</p>
+<p>​		1.给每一个城市一个序号，如1-&gt;北京，2-&gt;天津，3-&gt;上海，……，34-&gt;澳门<br>    2.用包含n个城市的序号的数组序列表示一种路线（个体），数组元素的序号表示旅行的顺序，如{3， 1， 2，……，34}表示的旅行顺序为：上海-&gt;北京-&gt;天津-&gt;……-&gt;澳门<br>​        3.数值序列中值不重复，即每个城市只去一次</p>
+</li>
+<li><p>初始化种群</p>
+<p>​		在选择，交叉，变异等遗传算子选定的情形下,初始种群生成策略的优劣对算法的效率性能和全局收敛性造成很大程度上的影响，通常情况下初始种群的产生是随机性的，根据问题要求，在整个问题空间的范围内设定初始种群规模，起初随机产生一定数量的个体，在挑选优秀的个体进入初始种群中，不断地重复此过程直到取到设定数目的初始种群。利用此方法可以优化程度较低但数量足够的种群。</p>
+</li>
+<li><p>评估适应度</p>
+<p>​		适应度函数是群体中个体生存机会选择的评价指标，其形式直接决定着群体进化行为。在进化搜索的过程中，遗传算法仅参照适应度函数，不需要依靠外部信息搜索种群中每个个体的适应度值进行进化。它直接决定遗传算法的收敛性能以及寻优能力，因此如何设计恰当的适应度函数显得至关重要。通常在遗传算法中，适应度函数是由目标函数转变得到的。依照适应度函数以数字量化处理的方式对实际问题进行优化，达到综合值最小效果的目的。在 TSP问题中，适应度函数通常就以城市序列上的<strong>总路径长度的倒数</strong>进行定义。</p>
+</li>
+<li><p>产生新种群</p>
+<p>​		产生新种群分为选择，交叉和变异。</p>
+<ol>
+<li><p>选择</p>
+<p>​		这一过程主要是针对具体问题，选择有限的个体参与后期的进化。目的是根据适应度标准对群体进行优胜劣汰的操作，越优秀的个体被选择的概率越高，越容易遗传到下一代种群中，反之适应度较小个体以较低概率进行遗传。</p>
+</li>
+<li><p>交叉</p>
+<p>​		交叉操作是遗传算法的核心，也是模拟生物进化中关键的步骤，直接决定了遗传算法性能的优劣。交叉算子可以看作基因的相互交流，将两个父代个体的部分基因结构进行替换，重新组合而生成子代新个体的操作。算法的搜索能力通过交叉操作得到极大地提高。</p>
+</li>
+<li><p>变异</p>
+<p>​		变异算子是根据变异概率将染色体中的基因运用一定方式进行替换形成新的染色体，它模拟生物进化过程中基因发生的突变现象，其基本上决定了遗传算法局部搜索性能的高低。此运算目的是为了增强进化活力，以一定概率更新个体的基因。在遗传算法的中后期，种群中的个体大都逼近最优解，如果只是依赖交叉操作难以产生新的个体。而变异运算可以有效的避免个体同质化，增加个体的多样性，使算法能够较为全面地覆盖问题的解空间。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="三-关键技术"><a href="#三-关键技术" class="headerlink" title="三. 关键技术"></a>三. 关键技术</h3><p>产生新种群是该算法的关键部分</p>
+<h4 id="3-1-选择"><a href="#3-1-选择" class="headerlink" title="3.1 选择"></a>3.1 选择</h4><p>以下为常见的选择算子：</p>
+<ol>
+<li>轮盘赌选择：个体遗传到下一代的概率等于个体适应度值与总体适应度值的比值。</li>
+<li>最佳保留选择：首先进行轮盘赌选择操作，然后将父代中适应度最高的个体直接铂贝到子代中。</li>
+<li>随机竞争选择：个体进行竞争，选择适应度高的个体遗传到下一代，直到选满为止。</li>
+<li>随机联赛选择：每次选择若干个适应度最高的个体复制到下一代种群中。</li>
+<li>均匀排序：按照个体适应度高低进行分配每个个体被选中的概率。</li>
+<li>排挤选择：新产生的子代替换基因序列相似的父代个体。</li>
+<li>精英策略：当前种群中适应度最高的个体不参与遗传操作，替换本代种群中经过遗传操作后适应度最低的个体。</li>
+</ol>
+<p>本次实验采用第一种轮盘赌选择(参照书上的数据进行举例)</p>
+<table>
+<thead>
+<tr>
+<th><strong>个体</strong></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>适应度</strong></td>
+<td>2.0</td>
+<td>1.8</td>
+<td>1.6</td>
+<td>1.4</td>
+<td>1.2</td>
+<td>1.0</td>
+<td>0.8</td>
+<td>0.6</td>
+<td>0.4</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td><strong>选择概率</strong></td>
+<td>0.18</td>
+<td>0.16</td>
+<td>0.15</td>
+<td>0.13</td>
+<td>0.11</td>
+<td>0.09</td>
+<td>0.07</td>
+<td>0.06</td>
+<td>0.03</td>
+<td>0.02</td>
+</tr>
+<tr>
+<td><strong>累积概率</strong></td>
+<td>0.18</td>
+<td>0.34</td>
+<td>0.49</td>
+<td>0.62</td>
+<td>0.73</td>
+<td>0.82</td>
+<td>0.89</td>
+<td>0.95</td>
+<td>0.98</td>
+<td>1.00</td>
+</tr>
+</tbody></table>
+<p>当产生一个随机数0.32时 即选择个体2</p>
+<p>当产生一个随机数0.42时 即选择个体3</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">getOne</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;选择一个个体&quot;&quot;&quot;</span><br>    r = random.uniform(<span class="hljs-number">0</span>, self.bounds)<br>    <span class="hljs-keyword">for</span> life <span class="hljs-keyword">in</span> self.lives:<br>        r -= life.score<br>        <span class="hljs-keyword">if</span> r &lt;= <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">return</span> life<br><br>        <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">&quot;选择错误&quot;</span>, self.bounds)<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-交叉"><a href="#3-2-交叉" class="headerlink" title="3.2 交叉"></a>3.2 交叉</h4><ol>
+<li><p>顺序交叉</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E9%A1%BA%E5%BA%8F%E4%BA%A4%E5%8F%89.png" srcset="/img/loading.gif" lazyload class="" title="顺序交叉">
+</li>
+<li><p><strong>部分匹配交叉</strong></p>
+<p>本次实验采取的方式</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E9%83%A8%E5%88%86%E5%8C%B9%E9%85%8D%E4%BA%A4%E5%8F%89.png" srcset="/img/loading.gif" lazyload class="" title="部分匹配交叉">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">cross</span>(<span class="hljs-params">self, parent1, parent2</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;交叉&quot;&quot;&quot;</span><br>    index1 = random.randint(<span class="hljs-number">0</span>, self.geneLenght - <span class="hljs-number">1</span>)<br>    index2 = random.randint(index1, self.geneLenght - <span class="hljs-number">1</span>)<br>    tempGene = parent2.gene[index1:index2]   <span class="hljs-comment"># 交叉的基因片段</span><br>    newGene = []<br>    p1len = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> parent1.gene:<br>        <span class="hljs-keyword">if</span> p1len == index1:<br>            newGene.extend(tempGene)     <span class="hljs-comment"># 插入基因片段</span><br>            p1len += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">if</span> g <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> tempGene:<br>                newGene.append(g)<br>                p1len += <span class="hljs-number">1</span><br>                self.crossCount += <span class="hljs-number">1</span><br>                <span class="hljs-keyword">return</span> newGene<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>循环交叉</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E5%BE%AA%E7%8E%AF%E4%BA%A4%E5%8F%89.png" srcset="/img/loading.gif" lazyload class="" title="循环交叉"></li>
+</ol>
+<h4 id="3-3-变异"><a href="#3-3-变异" class="headerlink" title="3.3 变异"></a>3.3 变异</h4><ol>
+<li><p><strong>对换变异</strong></p>
+<p>互换元素,本实验采取的变异策略</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E5%AF%B9%E6%8D%A2%E5%8F%98%E5%BC%82.png" srcset="/img/loading.gif" lazyload class="" title="对换变异">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span>  <span class="hljs-title function_">mutation</span>(<span class="hljs-params">self, gene</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;突变&quot;&quot;&quot;</span><br>    index1 = random.randint(<span class="hljs-number">0</span>, self.geneLenght - <span class="hljs-number">1</span>)<br>    index2 = random.randint(<span class="hljs-number">0</span>, self.geneLenght - <span class="hljs-number">1</span>)<br><br>    newGene = gene[:]       <span class="hljs-comment"># 产生一个新的基因序列，以免变异的时候影响父种群</span><br>    newGene[index1], newGene[index2] = newGene[index2], newGene[index1]<br>    self.mutationCount += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> newGene<br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>插入变异</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E6%8F%92%E5%85%A5%E5%8F%98%E5%BC%82.png" srcset="/img/loading.gif" lazyload class="" title="插入变异">
+</li>
+<li><p>倒位变异</p>
+<p>将截取点中的进行逆序</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E5%80%92%E4%BD%8D%E5%8F%98%E5%BC%82.png" srcset="/img/loading.gif" lazyload class="" title="倒位变异"></li>
+</ol>
+<h3 id="四-实验结果分析"><a href="#四-实验结果分析" class="headerlink" title="四. 实验结果分析"></a>四. 实验结果分析</h3><p>初始情况</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/%E5%88%9D%E5%A7%8B.png" srcset="/img/loading.gif" lazyload class="" title="初始">
+
+<p>值为：389.702033</p>
+<p>迭代514次</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/514.png" srcset="/img/loading.gif" lazyload class="" width="514">
+
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/514%E5%80%BC.png" srcset="/img/loading.gif" lazyload class="" title="514值">
+
+<p>迭代2345次</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/2345.png" srcset="/img/loading.gif" lazyload class="" width="2345">
+
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/2345%E5%80%BC.png" srcset="/img/loading.gif" lazyload class="" title="2345值">
+
+<p>迭代5713次</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/5713.png" srcset="/img/loading.gif" lazyload class="" width="5713">
+
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/5713%E5%80%BC.png" srcset="/img/loading.gif" lazyload class="" title="5713值">
+
+<p>迭代9984次</p>
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/9984.png" srcset="/img/loading.gif" lazyload class="" width="9984">
+
+<img src="/2022/12/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E6%B1%82%E8%A7%A3TSP%E9%97%AE%E9%A2%98/9984%E5%80%BC.png" srcset="/img/loading.gif" lazyload class="" title="9984值">
+
+<table>
+<thead>
+<tr>
+<th align="center">迭代次数</th>
+<th align="center">值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">389.702033</td>
+</tr>
+<tr>
+<td align="center">514</td>
+<td align="center">206.246760</td>
+</tr>
+<tr>
+<td align="center">2345</td>
+<td align="center">162.912738</td>
+</tr>
+<tr>
+<td align="center">5713</td>
+<td align="center">159.040116</td>
+</tr>
+<tr>
+<td align="center">9984</td>
+<td align="center">159.040116</td>
+</tr>
+</tbody></table>
+<p>对比数据，当迭代次数达到5700次时结果已经趋近最佳</p>
+<p>随着迭代次数的增加，对应的值在逐步减小，且从图中也可以看出在向着最优解发展</p>
+<h3 id="五-收获"><a href="#五-收获" class="headerlink" title="五. 收获"></a>五. 收获</h3><p>​		本次人工智能实验基于遗传算法求解TSP问题收获颇多。虽然之前在算法课上也学过TSP问题，但是只学会了暴力法求解，也就是枚举，经过此实验了解了用遗传算法来进行求解的思路，学习了遗传算法的基本流程，尤其是针对产生新种群的多个方法和他们对应的详细求解过程，并采取其中的一种方法进行处理，对得出的结果进行比对分析。如果还有机会我将对其他产生新种群的方法进行实现并进行对比结果，找出相对更好的方式。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+        <a href="/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">#遗传算法</a>
+      
+        <a href="/tags/TSP/">#TSP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>遗传算法求解TSP问题</div>
+      <div>http://kaikai12321.github.io/2022/12/28/遗传算法求解TSP问题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Hou Kai</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/29/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%991/" title="学习资料1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">学习资料1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/27/%E8%93%9D%E6%A1%A5%E6%9D%AF2021%E5%9B%9E%E8%B7%AF%E8%AE%A1%E6%95%B0/" title="蓝桥杯2021回路计数">
+                        <span class="hidden-mobile">蓝桥杯2021回路计数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"STsUnMjacd3JgrUyQjh2Whjc-gzGzoHsz","appKey":"McIbgVI9Lgj0fJnq9lJAzHAX","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

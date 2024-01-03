@@ -1,0 +1,827 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/kaiicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Hou Kai">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文主要介绍了微信小程序开发的基本流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序开发day01">
+<meta property="og:url" content="http://kaikai12321.github.io/2023/12/27/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day01/index.html">
+<meta property="og:site_name" content="楷楷">
+<meta property="og:description" content="本文主要介绍了微信小程序开发的基本流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://kaikai12321.github.io/img/default1.jpg">
+<meta property="article:published_time" content="2023-12-27T01:36:55.000Z">
+<meta property="article:modified_time" content="2023-12-28T09:13:48.602Z">
+<meta property="article:author" content="Hou Kai">
+<meta property="article:tag" content="微信小程序">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://kaikai12321.github.io/img/default1.jpg">
+  
+  
+  
+  <title>微信小程序开发day01 - 楷楷</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kaikai12321.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"gs33BnmWb0Kb5c7r2935ONLp-MdYXbMMI","app_key":"WQsVTXOBSz94Ap6KvkqOgcaN","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>楷楷</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default7.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="微信小程序开发day01"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-27 09:36" pubdate>
+          2023年12月27日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">微信小程序开发day01</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文主要介绍了微信小程序开发的基本流程</p>
+<span id="more"></span>
+
+<h3 id="一-小程序入门"><a href="#一-小程序入门" class="headerlink" title="一. 小程序入门"></a>一. 小程序入门</h3><h4 id="1-注册"><a href="#1-注册" class="headerlink" title="1.注册"></a>1.注册</h4><p>AppID : wx5f6a4e2b33dd5cef</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/">https://mp.weixin.qq.com/</a></p>
+<h4 id="2-开发者工具"><a href="#2-开发者工具" class="headerlink" title="2.开发者工具"></a>2.开发者工具</h4><p><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html">https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html</a></p>
+<h4 id="3-代码文件构成"><a href="#3-代码文件构成" class="headerlink" title="3.代码文件构成"></a>3.代码文件构成</h4><ul>
+<li><p><strong>app.json</strong> </p>
+<img src="/2023/12/27/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day01/image1.png" srcset="/img/loading.gif" lazyload class="">
+</li>
+<li><p><strong>sitemap.json</strong></p>
+<img src="/2023/12/27/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day01/image2.png" srcset="/img/loading.gif" lazyload class=""></li>
+</ul>
+<h4 id="4-新建一个页面"><a href="#4-新建一个页面" class="headerlink" title="4. 新建一个页面"></a>4. 新建一个页面</h4><p>在app.json中新增页面存放路径</p>
+<img src="/2023/12/27/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day01/image3.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>修改首页页面，直接调整路径的顺序即可</p>
+<h4 id="5-wxml文件"><a href="#5-wxml文件" class="headerlink" title="5. wxml文件"></a>5. wxml文件</h4><p>类似web端html</p>
+<ul>
+<li><p>标签不同</p>
+<p>div—&gt;view</p>
+<p>span—&gt;text</p>
+<p>img—&gt;image</p>
+<p>a—&gt;navigator</p>
+</li>
+<li><p>属性节点</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">navigator</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">navigator</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+</li>
+<li><p>类似于Vue的模板语法</p>
+<p>数据绑定 列表渲染 条件渲染</p>
+</li>
+</ul>
+<h4 id="6-通信模型"><a href="#6-通信模型" class="headerlink" title="6.通信模型"></a>6.通信模型</h4><p>通信主体</p>
+<p>渲染层 —————— 逻辑层</p>
+<p>wxml，wxss			   js脚本</p>
+<h4 id="7-组件"><a href="#7-组件" class="headerlink" title="7.组件"></a>7.组件</h4><ul>
+<li><p>视图类</p>
+<ul>
+<li><p>view 类似于div 块级元素</p>
+<p>实现flex横向布局</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container1&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>C<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.container1</span> view&#123;<br>    <span class="hljs-attribute">width</span>:<span class="hljs-number">100px</span>;<br>    <span class="hljs-attribute">height</span>:<span class="hljs-number">100px</span>;<br>    <span class="hljs-attribute">text-align</span>:center;<br>    <span class="hljs-attribute">line-height</span>:<span class="hljs-number">100px</span>;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">1</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightgreen;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">2</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightblue;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">3</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightcoral;<br>&#125;<br><span class="hljs-selector-class">.container1</span>&#123;<br>	<span class="hljs-attribute">display</span>:flex;<br>    <span class="hljs-attribute">justify-content</span>:space-around;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>scroll-view 可滚动的视图区域</p>
+<img src="/2023/12/27/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day01/image4.png" srcset="/img/loading.gif" lazyload class="">
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">scroll-view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container1&quot;</span> <span class="hljs-attr">scroll-y</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--scroll-y 允许纵向滚动  scroll-x 横向滚动--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>C<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">scroll-view</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.container1</span> view&#123;<br>    <span class="hljs-attribute">width</span>:<span class="hljs-number">100px</span>;<br>    <span class="hljs-attribute">height</span>:<span class="hljs-number">100px</span>;<br>    <span class="hljs-attribute">text-align</span>:center;<br>    <span class="hljs-attribute">line-height</span>:<span class="hljs-number">100px</span>;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">1</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightgreen;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">2</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightblue;<br>&#125;<br><span class="hljs-selector-class">.container1</span> view<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">3</span>)&#123;<br>	<span class="hljs-attribute">background-color</span>:lightcoral;<br>&#125;<br><span class="hljs-selector-class">.container1</span>&#123;<br>	<span class="hljs-attribute">border</span>:<span class="hljs-number">1px</span> solid red;<br>    <span class="hljs-attribute">width</span>:<span class="hljs-number">100px</span>;<br>    <span class="hljs-attribute">height</span>:<span class="hljs-number">120px</span>;<span class="hljs-comment">/*必须要给容器固定一个高度*/</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>swiper和swiper-item 轮播图组件和轮播图item组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">swiper</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;swiper-container&quot;</span> <span class="hljs-attr">indicator-dots</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- indicator-dots显示面板指示点 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- autoplay 是否自动切换 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- interval 自动切换时间间隔 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- circular 是否自动衔接 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">swiper-item</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>第一项<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">swiper-item</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">swiper-item</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>第二项<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">swiper-item</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">swiper-item</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>第三项<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">swiper-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">swiper</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.swiper-containter</span>&#123;<br>	<span class="hljs-attribute">height</span>:<span class="hljs-number">150px</span>;<br>&#125;<br><span class="hljs-selector-class">.item</span>&#123;<br>	<span class="hljs-attribute">height</span>:<span class="hljs-number">100%</span>;<br>    <span class="hljs-attribute">line-height</span>:<span class="hljs-number">150px</span>;<br>    <span class="hljs-attribute">text-align</span>:center;<br>&#125;<br>swiper-item<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">1</span>) <span class="hljs-selector-class">.item</span>&#123;<br>	<span class="hljs-attribute">background-color</span>:lightgreen;<br>&#125;<br>swiper-item<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">2</span>) <span class="hljs-selector-class">.item</span>&#123;<br>	<span class="hljs-attribute">background-color</span>:lightblue;<br>&#125;<br>swiper-item<span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">3</span>) <span class="hljs-selector-class">.item</span>&#123;<br>	<span class="hljs-attribute">background-color</span>:lightcoral;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>基础内容组件</p>
+<ul>
+<li><p>text</p>
+<p>属性：selectable 支持长按选中 </p>
+</li>
+<li><p>rich-text</p>
+<p>把HTML字符串渲染为对应的UI结构</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">rich-text</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&quot;&lt;h1 style=&#x27;color:red;&#x27;&gt;标题&lt;/h1&gt;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">rich-text</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>其他常用组件</p>
+<ul>
+<li><p>button</p>
+<p>可以通过open-type属性调用微信提供的各种功能(客服，转发，获取用户授权，获取用户信息)</p>
+</li>
+<li><p>image</p>
+<p>默认宽300px 高度约为240px</p>
+</li>
+<li><p>navigator</p>
+<p>类似于html中的a标签</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="8-API"><a href="#8-API" class="headerlink" title="8.API"></a>8.API</h4><ul>
+<li><p>事件监听</p>
+<p>wx.onWindowResize(function callback) 监听窗口尺寸变化事件</p>
+</li>
+<li><p>同步api</p>
+<p>以Sync结尾的api</p>
+<p>wx.setStorageSync(‘key’,’value’) 向本地存储中写入内容</p>
+</li>
+<li><p>异步</p>
+<p>wx.request() 发起网络数据请求，通过success回调函数接收数据</p>
+</li>
+</ul>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="category-chain-item">微信小程序</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#微信小程序</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>微信小程序开发day01</div>
+      <div>http://kaikai12321.github.io/2023/12/27/微信小程序开发day01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Hou Kai</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/29/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91day02/" title="微信小程序开发day02">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">微信小程序开发day02</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/05/%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E9%97%AE%E9%A2%98/" title="进程同步互斥问题">
+                        <span class="hidden-mobile">进程同步互斥问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"STsUnMjacd3JgrUyQjh2Whjc-gzGzoHsz","appKey":"McIbgVI9Lgj0fJnq9lJAzHAX","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
